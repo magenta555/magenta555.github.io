@@ -361,12 +361,12 @@
     }
 
     /* ========================================
-       Tooltip styles for Discord contact (top-left corner)
+       Tooltip styles for Discord contact (bottom-right corner)
        ======================================== */
     #discord-contact {
       position: fixed;
-      top: 1rem;
-      left: 1rem;
+      bottom: 1rem;
+      right: 1rem;
       background: var(--color-magenta);
       color: white;
       padding: 0.5rem 1rem;
@@ -483,7 +483,7 @@
   </footer>
 
   <!-- ========================================
-       Discord contact floating button with tooltip (moved top-left)
+       Discord contact floating button with tooltip (bottom-right corner)
        ======================================== -->
   <div id="discord-contact" tabindex="0" role="button" aria-describedby="discord-tooltip" aria-label="Discord contact username">
     magenta555
@@ -679,12 +679,6 @@
     function closeModal() {
       modalOverlay.classList.remove('visible');
       document.body.style.overflow = '';
-
-      // Return focus to first post for accessibility
-      const firstPost = postsContainer.querySelector('.post');
-      if (firstPost) firstPost.focus();
-
-      // Removed scroll to top on close as requested
     }
 
     modalCloseBtn.addEventListener('click', closeModal);
