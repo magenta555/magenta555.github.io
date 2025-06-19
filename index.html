@@ -10,18 +10,18 @@
   <!-- Modern clean font: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    /* ============================
-       CSS Variables for easy theming
-       ============================ */
+    /* ========================================
+       CSS Variables for easy theming & consistency
+       ======================================== */
     :root {
       --color-magenta: #d81e5b;
       --color-magenta-dark: #a31540;
       --color-magenta-light: #ffd6e8;
-      --color-bg: #ffffff;
+      --color-bg: #ffffff; /* White background for main content */
       --color-text: #111111;
       --color-text-muted: #555555;
-      --color-bg-post: #fff0f4;
-      --color-bg-post-hover: #ffd6e8;
+      --color-post-bg: #fff; /* White background for posts container */
+      --color-post-hover-bg: #ffd6e8;
       --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
         Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       --font-weight-regular: 400;
@@ -35,17 +35,18 @@
       --spacing-base: 1rem;
       --spacing-large: 2rem;
       --spacing-xlarge: 3rem;
-      --border-radius: 8px;
-      --shadow-post: 0 4px 12px rgba(216, 30, 91, 0.15);
-      --shadow-header: 0 6px 16px rgba(216, 30, 91, 0.3);
+      --border-radius: 10px;
+      --shadow-post: 0 6px 20px rgba(216, 30, 91, 0.15);
+      --shadow-header: 0 8px 24px rgba(216, 30, 91, 0.3);
       --outline-focus: 3px solid var(--color-magenta);
       --outline-offset: 2px;
       --transition-time: 0.4s;
+      --max-content-width: 900px;
     }
 
-    /* ============================
+    /* ========================================
        Reset and base styles
-       ============================ */
+       ======================================== */
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -80,9 +81,9 @@
       outline-offset: var(--outline-offset);
     }
 
-    /* ============================
-       Header styles
-       ============================ */
+    /* ========================================
+       HEADER styles
+       ======================================== */
     header {
       background-color: var(--color-magenta);
       color: #fff;
@@ -105,34 +106,76 @@
       color: var(--color-magenta-light);
     }
 
-    /* ============================
-       Main content styles
-       ============================ */
+    /* ========================================
+       MAIN CONTENT styles
+       ======================================== */
     main {
       flex: 1;
-      max-width: 900px;
-      margin: var(--spacing-xlarge) auto;
+      max-width: var(--max-content-width);
+      margin: var(--spacing-xlarge) auto var(--spacing-large);
       padding: 0 var(--spacing-base);
-      background: var(--color-bg-post);
-      color: var(--color-text);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-post);
-      transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
+      /* No background here to keep it clean */
     }
-    section.intro {
+
+    /* ========================================
+       ABOUT ME section styles (new)
+       ======================================== */
+    #about-me {
+      background: var(--color-post-bg);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-large);
       margin-bottom: var(--spacing-xlarge);
+      box-shadow: var(--shadow-post);
+      color: var(--color-text);
+      font-size: var(--font-size-body);
+      line-height: 1.6;
+      user-select: text;
+    }
+    #about-me h2 {
+      margin-top: 0;
+      font-size: 2rem;
+      font-weight: var(--font-weight-black);
+      color: var(--color-magenta-dark);
+      margin-bottom: var(--spacing-base);
       text-align: center;
     }
-    section.intro p {
-      font-size: var(--font-size-body);
-      max-width: 600px;
-      margin: 0 auto;
+    #about-me p {
+      margin-bottom: var(--spacing-base);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
       color: var(--color-text-muted);
     }
+
+    /* ========================================
+       LATEST POSTS container styles
+       ======================================== */
     section.blog-list {
-      margin-bottom: var(--spacing-xlarge);
+      background: var(--color-post-bg);
+      padding: var(--spacing-large);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-post);
+      color: var(--color-text);
+      /* Important: prevent weird whitespace growth */
+      overflow: hidden;
+      transition: height 0.4s ease;
+      max-width: var(--max-content-width);
+      margin-left: auto;
+      margin-right: auto;
     }
-    /* Blog post preview cards */
+    section.blog-list h2 {
+      margin-top: 0;
+      font-size: 2rem;
+      font-weight: var(--font-weight-black);
+      color: var(--color-magenta-dark);
+      margin-bottom: var(--spacing-large);
+      text-align: center;
+      user-select: none;
+    }
+
+    /* ========================================
+       Blog post preview cards styles
+       ======================================== */
     .post {
       border-left: 5px solid var(--color-magenta-dark);
       background: #fff;
@@ -148,7 +191,7 @@
       justify-content: center;
     }
     .post:hover, .post:focus-within {
-      background: var(--color-bg-post-hover);
+      background: var(--color-post-hover-bg);
       box-shadow: 0 6px 16px rgba(216, 30, 91, 0.25);
       outline: none;
     }
@@ -173,22 +216,24 @@
       line-height: 1.4;
     }
 
-    /* ============================
+    /* ========================================
        Blog post full content styles
-       ============================ */
+       ======================================== */
     #post-content {
       background: #fff;
       padding: var(--spacing-large);
       border-radius: var(--border-radius);
       box-shadow: 0 8px 24px rgba(216, 30, 91, 0.2);
       max-width: 700px;
-      margin: 0 auto var(--spacing-xlarge);
+      margin: var(--spacing-large) auto 0;
       color: var(--color-magenta-dark);
       opacity: 0;
       transform: translateY(20px);
       pointer-events: none;
       transition: opacity 0.4s ease, transform 0.4s ease;
       will-change: opacity, transform;
+      /* Prevent margin collapse with posts container */
+      margin-bottom: var(--spacing-large);
     }
     #post-content.visible {
       opacity: 1;
@@ -218,6 +263,7 @@
       transition: background-color 0.3s ease;
       font-size: 1rem;
       box-shadow: 0 2px 8px rgba(216, 30, 91, 0.4);
+      align-self: flex-start;
     }
     #post-content button.close-btn:hover,
     #post-content button.close-btn:focus {
@@ -225,9 +271,9 @@
       outline: none;
     }
 
-    /* ============================
+    /* ========================================
        Footer styles
-       ============================ */
+       ======================================== */
     footer {
       background: var(--color-magenta-dark);
       color: #fff;
@@ -247,24 +293,23 @@
       text-decoration: underline;
     }
 
-    /* ============================
+    /* ========================================
        Responsive styles
-       ============================ */
+       ======================================== */
     @media (max-width: 600px) {
       header h1 {
         font-size: var(--font-size-title-mobile);
       }
       main {
         margin: var(--spacing-large);
-        padding: var(--spacing-large);
-        border-radius: 0;
-        box-shadow: none;
+        padding: 0 var(--spacing-base);
       }
-      #post-content {
-        max-width: 100%;
-        padding: var(--spacing-large);
-        border-radius: 0;
-        box-shadow: none;
+      #about-me {
+        padding: var(--spacing-large) var(--spacing-base);
+      }
+      section.blog-list {
+        padding: var(--spacing-large) var(--spacing-base);
+        border-radius: var(--border-radius);
       }
       .post {
         padding: var(--spacing-base);
@@ -273,14 +318,24 @@
       .post a {
         font-size: 1.1rem;
       }
+      #post-content {
+        max-width: 100%;
+        padding: var(--spacing-large) var(--spacing-base);
+        border-radius: var(--border-radius);
+        margin: var(--spacing-large) 0 0;
+      }
       #post-content h3 {
         font-size: 1.6rem;
       }
+      #post-content button.close-btn {
+        width: 100%;
+        text-align: center;
+      }
     }
 
-    /* ============================
+    /* ========================================
        Screen reader only helper class
-       ============================ */
+       ======================================== */
     .sr-only {
       position: absolute !important;
       width: 1px !important;
@@ -293,9 +348,9 @@
       border: 0 !important;
     }
 
-    /* ============================
+    /* ========================================
        Tooltip styles for Discord contact
-       ============================ */
+       ======================================== */
     #discord-contact {
       position: fixed;
       bottom: 1rem;
@@ -335,9 +390,9 @@
       pointer-events: auto;
     }
 
-    /* ============================
-       Sparkle canvas styles
-       ============================ */
+    /* ========================================
+       Sparkle canvas styles for subtle effect
+       ======================================== */
     #sparkle-canvas {
       position: fixed;
       pointer-events: none;
@@ -350,36 +405,54 @@
   </style>
 </head>
 <body>
-  <!-- ============================
+  <!-- ========================================
        HEADER
-       ============================ -->
+       ======================================== -->
   <header role="banner" tabindex="0">
     <h1 aria-label="MAGENTA, web designer and blogger">MAGENTA</h1>
     <p>Your modern web design & blog destination</p>
   </header>
 
-  <!-- ============================
+  <!-- ========================================
        MAIN CONTENT
-       ============================ -->
+       ======================================== -->
   <main role="main" tabindex="0">
 
-    <!-- INTRO SECTION -->
-    <section class="intro" aria-labelledby="intro-title">
-      <h2 id="intro-title" class="sr-only">Introduction</h2>
-      <p id="intro-text">
-        Hi! I'm MAGENTA — a passionate web designer and blogger crafting modern, accessible websites. Welcome to my space where creativity meets code.
+    <!-- ========================================
+         ABOUT ME SECTION
+         - Moved outside Latest Posts for clarity
+         - Expanded with more personal info
+         ======================================== -->
+    <section id="about-me" aria-labelledby="about-me-title">
+      <h2 id="about-me-title">Hi! I'm MAGENTA</h2>
+      <p>
+        I’m a passionate web designer and blogger dedicated to crafting modern, sleek, and accessible websites that everyone can enjoy.
+      </p>
+      <p>
+        With a strong focus on usability and aesthetics, I combine creativity and technical skills to build sites that not only look amazing but also perform flawlessly.
+      </p>
+      <p>
+        When I’m not designing, I love sharing insights, tips, and stories through my blog to help others improve their web presence and design skills.
       </p>
     </section>
 
-    <!-- BLOG POSTS LIST -->
-    <section class="blog-list" aria-labelledby="blog-title">
+    <!-- ========================================
+         LATEST POSTS SECTION
+         - White background as requested
+         - Fixed whitespace and height issues with smooth transitions
+         ======================================== -->
+    <section class="blog-list" aria-labelledby="blog-title" id="blog-list">
       <h2 id="blog-title">Latest Posts</h2>
       <div id="posts-container" tabindex="0" aria-live="polite" aria-atomic="true">
         <!-- Blog posts will be injected here by JavaScript -->
       </div>
     </section>
 
-    <!-- BLOG POST FULL CONTENT VIEW -->
+    <!-- ========================================
+         BLOG POST FULL CONTENT VIEW
+         - Smooth fade/slide animation
+         - Responsive and accessible
+         ======================================== -->
     <article id="post-content" aria-live="polite" aria-atomic="true" tabindex="0" aria-label="Blog post content">
       <h3 id="post-content-title"></h3>
       <div id="post-content-body"></div>
@@ -387,9 +460,9 @@
     </article>
   </main>
 
-  <!-- ============================
+  <!-- ========================================
        FOOTER
-       ============================ -->
+       ======================================== -->
   <footer role="contentinfo">
     <p>
       &copy; 2025 MAGENTA. All rights reserved. <br />
@@ -398,22 +471,22 @@
     </p>
   </footer>
 
-  <!-- ============================
+  <!-- ========================================
        Discord contact floating button with tooltip
-       ============================ -->
+       ======================================== -->
   <div id="discord-contact" tabindex="0" role="button" aria-describedby="discord-tooltip" aria-label="Discord contact username">
     magenta555
     <div id="discord-tooltip" role="tooltip">Contact me on Discord</div>
   </div>
 
-  <!-- ============================
-       Sparkle Canvas for fun effect
-       ============================ -->
+  <!-- ========================================
+       Sparkle Canvas for subtle fun effect
+       ======================================== -->
   <canvas id="sparkle-canvas" aria-hidden="true"></canvas>
 
-  <!-- ============================
+  <!-- ========================================
        JAVASCRIPT
-       ============================ -->
+       ======================================== -->
   <script>
     /*******************************
      * BLOG POSTS DATA
@@ -476,13 +549,14 @@
     const closeBtn = postContent.querySelector('.close-btn');
     const header = document.querySelector('header');
     const main = document.querySelector('main');
+    const blogListSection = document.getElementById('blog-list');
 
     /*******************************
      * RENDER BLOG POSTS LIST
-     * This function renders the blog posts previews dynamically.
+     * Dynamically creates post previews inside the posts container.
      *******************************/
     function renderPostsList() {
-      postsContainer.innerHTML = ''; // Clear existing
+      postsContainer.innerHTML = ''; // Clear existing posts
 
       blogPosts.forEach(post => {
         const article = document.createElement('article');
@@ -492,7 +566,7 @@
         article.setAttribute('aria-labelledby', `${post.id}-title`);
         article.setAttribute('aria-describedby', `${post.id}-summary`);
 
-        // Title link (not navigating away, triggers content view)
+        // Title link (triggers post open)
         const titleLink = document.createElement('a');
         titleLink.href = '#';
         titleLink.id = `${post.id}-title`;
@@ -508,7 +582,7 @@
           }
         });
 
-        // Summary
+        // Summary paragraph
         const summaryP = document.createElement('p');
         summaryP.id = `${post.id}-summary`;
         summaryP.textContent = post.summary;
@@ -516,7 +590,7 @@
         article.appendChild(titleLink);
         article.appendChild(summaryP);
 
-        // Make whole article clickable for keyboard users
+        // Make whole article clickable & keyboard navigable
         article.addEventListener('click', () => openPost(post.id));
         article.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -549,11 +623,14 @@
 
         postsContainer.appendChild(article);
       });
+
+      // After rendering posts, fix container height to shrink if needed
+      fixBlogListHeight();
     }
 
     /*******************************
      * OPEN POST FULL CONTENT
-     * Shows the full blog post content below the posts list with smooth animation.
+     * Displays the full post with smooth animation and scrolls into view.
      *******************************/
     function openPost(postId) {
       const post = blogPosts.find(p => p.id === postId);
@@ -562,20 +639,25 @@
       postContentTitle.textContent = post.title;
       postContentBody.innerHTML = post.content;
 
-      // Show post content with smooth animation
+      // Show post content with animation
       postContent.classList.add('visible');
       postContent.setAttribute('tabindex', '-1');
       postContent.focus();
 
-      // Scroll smoothly into view on all devices
+      // Scroll smoothly into view
       postContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Expand blog list container height smoothly to accommodate post content
+      fixBlogListHeight(true);
     }
 
     /*******************************
      * CLOSE POST CONTENT
+     * Hides the post content and returns focus to the first post.
      *******************************/
     closeBtn.addEventListener('click', () => {
       postContent.classList.remove('visible');
+      fixBlogListHeight(false);
       // Return focus to first post for accessibility
       const firstPost = postsContainer.querySelector('.post');
       if (firstPost) firstPost.focus();
@@ -594,8 +676,28 @@
     });
 
     /*******************************
+     * FIX BLOG LIST HEIGHT
+     * Adjusts the height of the blog list container to prevent weird whitespace growth.
+     * @param {boolean} expand - true to expand for post content, false to shrink back.
+     *******************************/
+    function fixBlogListHeight(expand = false) {
+      if (expand) {
+        // Set height to fit posts container + post content smoothly
+        const postsHeight = postsContainer.offsetHeight;
+        const postContentHeight = postContent.offsetHeight;
+        const padding = 48; // approx padding inside blog-list section
+        const totalHeight = postsHeight + postContentHeight + padding;
+
+        blogListSection.style.height = totalHeight + 'px';
+      } else {
+        // Reset height to auto to shrink back
+        blogListSection.style.height = 'auto';
+      }
+    }
+
+    /*******************************
      * DISCORD CONTACT BUTTON
-     * Clicking or pressing Enter/Space copies username to clipboard and shows a temporary tooltip.
+     * Copies Discord username to clipboard with tooltip feedback.
      *******************************/
     const discordContact = document.getElementById('discord-contact');
     const discordTooltip = document.getElementById('discord-tooltip');
@@ -624,12 +726,13 @@
 
     /*******************************
      * INITIALIZE PAGE
+     * Render posts and prepare UI
      *******************************/
     renderPostsList();
 
     /*******************************
      * FUN JAVASCRIPT EFFECTS
-     * Sparkle trail on mouse move (subtle and accessible)
+     * Subtle sparkle trail on mouse move (accessible)
      *******************************/
     (function() {
       const canvas = document.getElementById('sparkle-canvas');
