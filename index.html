@@ -10,118 +10,280 @@
   <!-- Modern clean font: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset and base */
+    /* ============================
+       CSS Variables for easy theming
+       ============================ */
+    :root {
+      --color-magenta: #d81e5b;
+      --color-magenta-dark: #a31540;
+      --color-magenta-light: #ffd6e8;
+      --color-bg: #ffffff;
+      --color-text: #111111;
+      --color-text-muted: #444444;
+      --color-text-light: #eee;
+      --color-bg-post: #fff0f4;
+      --color-bg-post-hover: #ffd6e8;
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      --font-weight-regular: 400;
+      --font-weight-bold: 700;
+      --font-weight-black: 900;
+      --font-size-title: 3rem;
+      --font-size-title-mobile: 2.25rem;
+      --font-size-subtitle: 1.25rem;
+      --font-size-body: 1.125rem;
+      --font-size-small: 0.875rem;
+      --spacing-base: 1rem;
+      --spacing-large: 2rem;
+      --spacing-xlarge: 3rem;
+      --border-radius: 6px;
+      --shadow-post: 0 2px 6px rgba(216, 30, 91, 0.15);
+      --shadow-header: 0 4px 8px rgba(216, 30, 91, 0.3);
+      --outline-focus: 3px solid var(--color-magenta);
+      --outline-offset: 2px;
+    }
+
+    /* ============================
+       Reset and base styles
+       ============================ */
     *, *::before, *::after {
       box-sizing: border-box;
     }
     body {
       margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: #fff;
-      color: #111;
+      font-family: var(--font-primary);
+      background: var(--color-bg);
+      color: var(--color-text);
       line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      scroll-behavior: smooth;
     }
     a {
-      color: #d81e5b; /* Magenta-ish */
+      color: var(--color-magenta);
       text-decoration: none;
-      outline-offset: 2px;
+      outline-offset: var(--outline-offset);
     }
     a:focus, a:hover {
       text-decoration: underline;
-      outline: 3px solid #d81e5b;
-      outline-offset: 2px;
-    }
-    header {
-      background: linear-gradient(135deg, #d81e5b, #a31540);
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      box-shadow: 0 4px 8px rgb(216 30 91 / 0.3);
-    }
-    header h1 {
-      font-weight: 900;
-      font-size: 3rem;
-      margin: 0;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      user-select: none;
-    }
-    header p {
-      margin-top: 0.5rem;
-      font-weight: 500;
-      font-size: 1.25rem;
-      color: #ffd6e8;
-    }
-    main {
-      flex: 1;
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    section.intro {
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-    section.intro p {
-      font-size: 1.125rem;
-      max-width: 600px;
-      margin: 0 auto;
-      color: #444;
-    }
-    section.blog-preview {
-      margin-bottom: 4rem;
-    }
-    .post {
-      border-left: 4px solid #d81e5b;
-      background: #fff0f4;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1.5rem;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgb(216 30 91 / 0.15);
-      transition: background-color 0.3s ease;
-    }
-    .post:hover, .post:focus-within {
-      background: #ffd6e8;
-      outline: none;
-    }
-    .post a {
-      font-weight: 700;
-      font-size: 1.2rem;
-      display: inline-block;
-      margin-bottom: 0.25rem;
-    }
-    .post time {
-      font-size: 0.875rem;
-      color: #a31540;
-      font-style: italic;
-    }
-    footer {
-      background: #222;
-      color: #eee;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.875rem;
+      outline: var(--outline-focus);
+      outline-offset: var(--outline-offset);
     }
     /* Accessibility: focus visible */
     :focus-visible {
-      outline: 3px solid #d81e5b;
-      outline-offset: 2px;
+      outline: var(--outline-focus);
+      outline-offset: var(--outline-offset);
     }
-    /* Responsive */
+
+    /* ============================
+       Header styles
+       ============================ */
+    header {
+      background: linear-gradient(135deg, var(--color-magenta), var(--color-magenta-dark));
+      color: white;
+      padding: var(--spacing-large) var(--spacing-base);
+      text-align: center;
+      box-shadow: var(--shadow-header);
+      user-select: none;
+    }
+    header h1 {
+      font-weight: var(--font-weight-black);
+      font-size: var(--font-size-title);
+      margin: 0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    header p {
+      margin-top: 0.5rem;
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-subtitle);
+      color: var(--color-magenta-light);
+    }
+
+    /* ============================
+       Main content styles
+       ============================ */
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: var(--spacing-xlarge) auto;
+      padding: 0 var(--spacing-base);
+    }
+    section.intro {
+      margin-bottom: var(--spacing-xlarge);
+      text-align: center;
+    }
+    section.intro p {
+      font-size: var(--font-size-body);
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--color-text-muted);
+    }
+    section.blog-list {
+      margin-bottom: var(--spacing-xlarge);
+    }
+    /* Blog post preview cards */
+    .post {
+      border-left: 4px solid var(--color-magenta);
+      background: var(--color-bg-post);
+      padding: var(--spacing-base) calc(var(--spacing-base) * 1.5);
+      margin-bottom: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-post);
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .post:hover, .post:focus-within {
+      background: var(--color-bg-post-hover);
+      outline: none;
+    }
+    .post a {
+      font-weight: var(--font-weight-bold);
+      font-size: 1.2rem;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+      cursor: pointer;
+    }
+    .post time {
+      font-size: var(--font-size-small);
+      color: var(--color-magenta-dark);
+      font-style: italic;
+    }
+    .post p {
+      margin-top: 0.25rem;
+      color: var(--color-text-muted);
+    }
+
+    /* ============================
+       Blog post full content styles
+       ============================ */
+    #post-content {
+      background: var(--color-bg-post);
+      padding: var(--spacing-large);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-post);
+      max-width: 700px;
+      margin: 0 auto var(--spacing-xlarge);
+      display: none; /* Hidden by default */
+    }
+    #post-content h3 {
+      margin-top: 0;
+      color: var(--color-magenta-dark);
+    }
+    #post-content p {
+      line-height: 1.7;
+      color: var(--color-text-muted);
+    }
+    #post-content button.close-btn {
+      background: var(--color-magenta);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-weight: var(--font-weight-bold);
+      cursor: pointer;
+      margin-top: var(--spacing-base);
+      transition: background-color 0.3s ease;
+    }
+    #post-content button.close-btn:hover,
+    #post-content button.close-btn:focus {
+      background: var(--color-magenta-dark);
+      outline: none;
+    }
+
+    /* ============================
+       Footer styles
+       ============================ */
+    footer {
+      background: #222;
+      color: var(--color-text-light);
+      text-align: center;
+      padding: var(--spacing-base);
+      font-size: var(--font-size-small);
+    }
+    footer a {
+      color: var(--color-magenta-light);
+      font-weight: var(--font-weight-bold);
+    }
+    footer a:focus, footer a:hover {
+      color: var(--color-magenta);
+      outline: none;
+      text-decoration: underline;
+    }
+
+    /* ============================
+       Responsive styles
+       ============================ */
     @media (max-width: 600px) {
       header h1 {
-        font-size: 2.25rem;
+        font-size: var(--font-size-title-mobile);
       }
       main {
-        margin: 1rem;
+        margin: var(--spacing-large);
       }
     }
 
-    /* Fun JavaScript-enhanced magenta sparkle animation */
+    /* ============================
+       Screen reader only helper class
+       ============================ */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    /* ============================
+       Tooltip styles for Discord contact
+       ============================ */
+    #discord-contact {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--color-magenta);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-weight: var(--font-weight-bold);
+      cursor: pointer;
+      box-shadow: var(--shadow-header);
+      user-select: none;
+      z-index: 10000;
+      transition: background-color 0.3s ease;
+    }
+    #discord-contact:hover, #discord-contact:focus {
+      background: var(--color-magenta-dark);
+      outline: none;
+    }
+    #discord-tooltip {
+      position: absolute;
+      bottom: 110%;
+      right: 0;
+      background: var(--color-magenta-dark);
+      color: var(--color-magenta-light);
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--border-radius);
+      font-size: var(--font-size-small);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #discord-contact:hover #discord-tooltip,
+    #discord-contact:focus #discord-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ============================
+       Sparkle canvas styles
+       ============================ */
     #sparkle-canvas {
       position: fixed;
       pointer-events: none;
@@ -134,49 +296,269 @@
   </style>
 </head>
 <body>
+  <!-- ============================
+       HEADER
+       ============================ -->
   <header role="banner">
     <h1 aria-label="MAGENTA, web designer and blogger">MAGENTA</h1>
     <p>Your modern web design & blog destination</p>
   </header>
 
+  <!-- ============================
+       MAIN CONTENT
+       ============================ -->
   <main role="main">
+
+    <!-- INTRO SECTION -->
     <section class="intro" aria-labelledby="intro-title">
       <h2 id="intro-title" class="sr-only">Introduction</h2>
-      <p>Hi! I'm MAGENTA — a passionate web designer and blogger crafting modern, accessible websites. Welcome to my space where creativity meets code.</p>
+      <p id="intro-text">
+        Hi! I'm MAGENTA — a passionate web designer and blogger crafting modern, accessible websites. Welcome to my space where creativity meets code.
+      </p>
     </section>
 
-    <section class="blog-preview" aria-labelledby="blog-title">
+    <!-- BLOG POSTS LIST -->
+    <section class="blog-list" aria-labelledby="blog-title">
       <h2 id="blog-title">Latest Posts</h2>
-
-      <article class="post" tabindex="0" aria-labelledby="post1-title" aria-describedby="post1-desc">
-        <a href="#" id="post1-title">Designing for Accessibility: Why It Matters</a>
-        <time datetime="2025-06-15">June 15, 2025</time>
-        <p id="post1-desc">Learn the key principles of creating websites everyone can use, regardless of ability.</p>
-      </article>
-
-      <article class="post" tabindex="0" aria-labelledby="post2-title" aria-describedby="post2-desc">
-        <a href="#" id="post2-title">Modern CSS Tricks for Clean Layouts</a>
-        <time datetime="2025-05-30">May 30, 2025</time>
-        <p id="post2-desc">Explore fresh CSS techniques to build sleek, responsive web pages effortlessly.</p>
-      </article>
-
-      <article class="post" tabindex="0" aria-labelledby="post3-title" aria-describedby="post3-desc">
-        <a href="#" id="post3-title">JavaScript Enhancements That Delight Users</a>
-        <time datetime="2025-05-10">May 10, 2025</time>
-        <p id="post3-desc">Discover subtle JS effects that improve user experience without overwhelming.</p>
-      </article>
+      <div id="posts-container" tabindex="0" aria-live="polite" aria-atomic="true">
+        <!-- Blog posts will be injected here by JavaScript -->
+      </div>
     </section>
+
+    <!-- BLOG POST FULL CONTENT VIEW -->
+    <article id="post-content" aria-live="polite" aria-atomic="true" tabindex="0" aria-label="Blog post content">
+      <h3 id="post-content-title"></h3>
+      <time id="post-content-date" datetime=""></time>
+      <div id="post-content-body"></div>
+      <button class="close-btn" aria-label="Close blog post">Close</button>
+    </article>
   </main>
 
+  <!-- ============================
+       FOOTER
+       ============================ -->
   <footer role="contentinfo">
-    <p>© 2025 MAGENTA. All rights reserved. <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    <p>
+      &copy; 2025 MAGENTA. All rights reserved. <br />
+      Contact me on Discord: <a href="#" id="discord-link" aria-describedby="discord-desc" tabindex="0">magenta555</a>
+      <span id="discord-desc" class="sr-only">Discord username: magenta555</span>
+    </p>
   </footer>
 
-  <!-- Sparkle Canvas -->
+  <!-- ============================
+       Discord contact floating button with tooltip
+       ============================ -->
+  <div id="discord-contact" tabindex="0" role="button" aria-describedby="discord-tooltip" aria-label="Discord contact username">
+    magenta555
+    <div id="discord-tooltip" role="tooltip">Contact me on Discord</div>
+  </div>
+
+  <!-- ============================
+       Sparkle Canvas for fun effect
+       ============================ -->
   <canvas id="sparkle-canvas" aria-hidden="true"></canvas>
 
+  <!-- ============================
+       JAVASCRIPT
+       ============================ -->
   <script>
-    // Sparkle effect on mouse move - subtle and accessible
+    /*******************************
+     * BLOG POSTS DATA
+     * Edit this array to add/edit/remove blog posts.
+     * Each post has: id, title, date (YYYY-MM-DD), summary, and full content (HTML allowed).
+     *******************************/
+    const blogPosts = [
+      {
+        id: 'post1',
+        title: 'Designing for Accessibility: Why It Matters',
+        date: '2025-06-15',
+        summary: 'Learn the key principles of creating websites everyone can use, regardless of ability.',
+        content: `
+          <p>Accessibility is not just a buzzword — it’s a fundamental part of good web design. By ensuring your websites are usable by people with disabilities, you create a better experience for everyone.</p>
+          <p>Key principles include semantic HTML, keyboard navigability, sufficient color contrast, and ARIA roles. Testing with assistive technologies is essential.</p>
+          <p>Remember, accessible design benefits your SEO, your reputation, and most importantly, your users.</p>
+        `
+      },
+      {
+        id: 'post2',
+        title: 'Modern CSS Tricks for Clean Layouts',
+        date: '2025-05-30',
+        summary: 'Explore fresh CSS techniques to build sleek, responsive web pages effortlessly.',
+        content: `
+          <p>CSS has evolved tremendously. Flexbox and Grid allow you to build complex layouts without hacks.</p>
+          <p>Use CSS variables for maintainability and dark mode support. Combine with media queries for responsive design.</p>
+          <p>Learn to leverage pseudo-elements and transitions for subtle UI enhancements that delight users.</p>
+        `
+      },
+      {
+        id: 'post3',
+        title: 'JavaScript Enhancements That Delight Users',
+        date: '2025-05-10',
+        summary: 'Discover subtle JS effects that improve user experience without overwhelming.',
+        content: `
+          <p>JavaScript can bring your site to life when used thoughtfully. Avoid heavy frameworks for simple blogs.</p>
+          <p>Focus on micro-interactions like button animations, smooth scrolling, and lazy loading images.</p>
+          <p>Always consider accessibility and performance when adding JS enhancements.</p>
+        `
+      }
+    ];
+
+    /*******************************
+     * UTILITY FUNCTIONS
+     *******************************/
+
+    // Format date to readable string, e.g. June 15, 2025
+    function formatDate(dateStr) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const date = new Date(dateStr + 'T00:00:00'); // Ensure no timezone issues
+      return date.toLocaleDateString(undefined, options);
+    }
+
+    /*******************************
+     * DOM ELEMENTS
+     *******************************/
+    const postsContainer = document.getElementById('posts-container');
+    const postContent = document.getElementById('post-content');
+    const postContentTitle = document.getElementById('post-content-title');
+    const postContentDate = document.getElementById('post-content-date');
+    const postContentBody = document.getElementById('post-content-body');
+    const closeBtn = postContent.querySelector('.close-btn');
+
+    /*******************************
+     * RENDER BLOG POSTS LIST
+     * This function renders the blog posts previews dynamically.
+     *******************************/
+    function renderPostsList() {
+      postsContainer.innerHTML = ''; // Clear existing
+
+      blogPosts.forEach(post => {
+        const article = document.createElement('article');
+        article.className = 'post';
+        article.tabIndex = 0;
+        article.setAttribute('role', 'button');
+        article.setAttribute('aria-labelledby', `${post.id}-title`);
+        article.setAttribute('aria-describedby', `${post.id}-summary`);
+
+        // Title link (not navigating away, triggers content view)
+        const titleLink = document.createElement('a');
+        titleLink.href = '#';
+        titleLink.id = `${post.id}-title`;
+        titleLink.textContent = post.title;
+        titleLink.addEventListener('click', e => {
+          e.preventDefault();
+          openPost(post.id);
+        });
+        titleLink.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openPost(post.id);
+          }
+        });
+
+        // Date
+        const timeElem = document.createElement('time');
+        timeElem.dateTime = post.date;
+        timeElem.textContent = formatDate(post.date);
+
+        // Summary
+        const summaryP = document.createElement('p');
+        summaryP.id = `${post.id}-summary`;
+        summaryP.textContent = post.summary;
+
+        article.appendChild(titleLink);
+        article.appendChild(timeElem);
+        article.appendChild(summaryP);
+
+        // Make whole article clickable for keyboard users
+        article.addEventListener('click', () => openPost(post.id));
+        article.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openPost(post.id);
+          }
+        });
+
+        postsContainer.appendChild(article);
+      });
+    }
+
+    /*******************************
+     * OPEN POST FULL CONTENT
+     * Shows the full blog post content below the posts list.
+     *******************************/
+    function openPost(postId) {
+      const post = blogPosts.find(p => p.id === postId);
+      if (!post) return;
+
+      postContentTitle.textContent = post.title;
+      postContentDate.dateTime = post.date;
+      postContentDate.textContent = formatDate(post.date);
+      postContentBody.innerHTML = post.content;
+
+      postContent.style.display = 'block';
+      postContent.focus();
+
+      // Scroll to post content smoothly
+      postContent.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /*******************************
+     * CLOSE POST CONTENT
+     *******************************/
+    closeBtn.addEventListener('click', () => {
+      postContent.style.display = 'none';
+      // Return focus to posts container for accessibility
+      postsContainer.focus();
+    });
+    closeBtn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        closeBtn.click();
+      }
+    });
+
+    /*******************************
+     * DISCORD CONTACT BUTTON
+     * Clicking or pressing Enter/Space copies username to clipboard and shows a temporary tooltip.
+     *******************************/
+    const discordContact = document.getElementById('discord-contact');
+    const discordTooltip = document.getElementById('discord-tooltip');
+
+    function copyDiscordUsername() {
+      navigator.clipboard.writeText('magenta555').then(() => {
+        discordTooltip.textContent = 'Discord username copied!';
+        setTimeout(() => {
+          discordTooltip.textContent = 'Contact me on Discord';
+        }, 2000);
+      }).catch(() => {
+        discordTooltip.textContent = 'Failed to copy. Please copy manually.';
+        setTimeout(() => {
+          discordTooltip.textContent = 'Contact me on Discord';
+        }, 2000);
+      });
+    }
+
+    discordContact.addEventListener('click', copyDiscordUsername);
+    discordContact.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        copyDiscordUsername();
+      }
+    });
+
+    /*******************************
+     * INITIALIZE PAGE
+     *******************************/
+    renderPostsList();
+
+    /*******************************
+     * FUN JAVASCRIPT EFFECTS
+     * 1. Sparkle trail on mouse move (already implemented)
+     * 2. Subtle header text color cycling animation
+     * 3. Floating "MAGENTA" letters on page load
+     *******************************/
+
+    // 1. Sparkle trail (from previous code)
     (function() {
       const canvas = document.getElementById('sparkle-canvas');
       const ctx = canvas.getContext('2d');
@@ -241,7 +623,7 @@
         }
       });
 
-      // Accessibility: reduce motion respects
+      // Accessibility: respect prefers-reduced-motion
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       if (mediaQuery.matches) {
         window.removeEventListener('mousemove', () => {});
@@ -249,21 +631,70 @@
         ctx.clearRect(0, 0, width, height);
       }
     })();
-  </script>
 
-  <style>
-    /* Screen reader only helper */
-    .sr-only {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-  </style>
+    // 2. Header text color cycling animation (subtle)
+    (function() {
+      const headerTitle = document.querySelector('header h1');
+      const colors = [
+        'var(--color-magenta)',
+        'var(--color-magenta-light)',
+        'var(--color-magenta-dark)'
+      ];
+      let index = 0;
+
+      function cycleColor() {
+        headerTitle.style.color = colors[index];
+        index = (index + 1) % colors.length;
+      }
+
+      setInterval(cycleColor, 4000);
+    })();
+
+    // 3. Floating MAGENTA letters on page load
+    (function() {
+      const header = document.querySelector('header');
+      const letters = 'MAGENTA'.split('');
+      const floatContainer = document.createElement('div');
+      floatContainer.setAttribute('aria-hidden', 'true');
+      floatContainer.style.position = 'fixed';
+      floatContainer.style.top = '10%';
+      floatContainer.style.left = '50%';
+      floatContainer.style.transform = 'translateX(-50%)';
+      floatContainer.style.pointerEvents = 'none';
+      floatContainer.style.zIndex = '9998';
+      document.body.appendChild(floatContainer);
+
+      letters.forEach((letter, i) => {
+        const span = document.createElement('span');
+        span.textContent = letter;
+        span.style.position = 'absolute';
+        span.style.fontSize = '2rem';
+        span.style.fontWeight = '900';
+        span.style.color = 'var(--color-magenta)';
+        span.style.left = `${i * 2.5}rem`;
+        span.style.top = '0';
+        span.style.opacity = '0.7';
+        span.style.willChange = 'transform';
+        floatContainer.appendChild(span);
+
+        // Animate floating up and down with different delays
+        let direction = 1;
+        let posY = 0;
+        function animate() {
+          posY += 0.15 * direction;
+          if (posY > 10) direction = -1;
+          else if (posY < 0) direction = 1;
+          span.style.transform = `translateY(${posY}px)`;
+          requestAnimationFrame(animate);
+        }
+        setTimeout(() => animate(), i * 300);
+      });
+
+      // Remove floating letters after 10 seconds to avoid distraction
+      setTimeout(() => {
+        floatContainer.remove();
+      }, 10000);
+    })();
+  </script>
 </body>
 </html>
