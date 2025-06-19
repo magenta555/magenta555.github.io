@@ -42,6 +42,7 @@
       --outline-offset: 2px;
       --transition-time: 0.4s;
       --max-content-width: 900px;
+      --footer-margin-top: 2rem; /* Reduced margin between Latest Posts and footer */
     }
 
     /* ========================================
@@ -113,9 +114,8 @@
     main {
       flex: 1;
       max-width: var(--max-content-width);
-      margin: var(--spacing-xlarge) auto var(--spacing-large);
+      margin: var(--spacing-xlarge) auto var(--footer-margin-top);
       padding: 0 var(--spacing-base);
-      /* No background here to keep it clean */
     }
 
     /* ========================================
@@ -157,8 +157,6 @@
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-post);
       color: var(--color-text);
-      /* Prevent weird whitespace growth */
-      overflow: visible; /* allow content to flow naturally */
       max-width: var(--max-content-width);
       margin-left: auto;
       margin-right: auto;
@@ -217,41 +215,57 @@
     }
 
     /* ========================================
-       Blog post full content styles
+       MODAL styles for blog post content
        ======================================== */
-    #post-content {
+    #modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    #modal-overlay.visible {
+      display: flex;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    #modal {
       background: #fff;
-      padding: var(--spacing-large);
       border-radius: var(--border-radius);
-      box-shadow: 0 8px 24px rgba(216, 30, 91, 0.2);
       max-width: 700px;
-      margin: var(--spacing-large) auto 0;
+      width: 100%;
+      max-height: 90vh;
+      box-shadow: 0 8px 32px rgba(216, 30, 91, 0.3);
+      display: flex;
+      flex-direction: column;
+      padding: var(--spacing-large);
       color: var(--color-magenta-dark);
-      opacity: 0;
-      transform: translateY(20px);
-      pointer-events: none;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      will-change: opacity, transform;
-      /* Prevent margin collapse with posts container */
-      margin-bottom: var(--spacing-large);
+      position: relative;
+      outline: none;
     }
-    #post-content.visible {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    #post-content h3 {
+    #modal h3 {
       margin-top: 0;
       font-size: 2rem;
       font-weight: var(--font-weight-black);
       margin-bottom: var(--spacing-base);
     }
-    #post-content p {
-      line-height: 1.7;
-      margin-bottom: 1rem;
+    #modal-content {
+      overflow-y: auto;
+      flex: 1 1 auto;
       font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: var(--spacing-large);
     }
-    #post-content button.close-btn {
+    #modal-close {
       background: var(--color-magenta);
       color: white;
       border: none;
@@ -259,14 +273,13 @@
       border-radius: var(--border-radius);
       font-weight: var(--font-weight-bold);
       cursor: pointer;
-      margin-top: var(--spacing-base);
-      transition: background-color 0.3s ease;
       font-size: 1rem;
-      box-shadow: 0 2px 8px rgba(216, 30, 91, 0.4);
       align-self: flex-start;
+      box-shadow: 0 2px 8px rgba(216, 30, 91, 0.4);
+      transition: background-color 0.3s ease;
     }
-    #post-content button.close-btn:hover,
-    #post-content button.close-btn:focus {
+    #modal-close:hover,
+    #modal-close:focus {
       background: var(--color-magenta-dark);
       outline: none;
     }
@@ -281,6 +294,7 @@
       padding: var(--spacing-base);
       font-size: var(--font-size-small);
       user-select: none;
+      margin-top: var(--footer-margin-top);
     }
     footer a {
       color: var(--color-magenta-light);
@@ -318,16 +332,14 @@
       .post a {
         font-size: 1.1rem;
       }
-      #post-content {
-        max-width: 100%;
+      #modal {
+        max-height: 95vh;
         padding: var(--spacing-large) var(--spacing-base);
-        border-radius: var(--border-radius);
-        margin: var(--spacing-large) 0 0;
       }
-      #post-content h3 {
+      #modal h3 {
         font-size: 1.6rem;
       }
-      #post-content button.close-btn {
+      #modal-close {
         width: 100%;
         text-align: center;
       }
@@ -363,7 +375,7 @@
       cursor: pointer;
       box-shadow: var(--shadow-header);
       user-select: none;
-      z-index: 10000;
+      z-index: 10001;
       transition: background-color 0.3s ease;
     }
     #discord-contact:hover, #discord-contact:focus {
@@ -420,7 +432,6 @@
 
     <!-- ========================================
          ABOUT ME SECTION
-         - Expanded with Texas location info
          ======================================== -->
     <section id="about-me" aria-labelledby="about-me-title">
       <h2 id="about-me-title">Hi! I'm MAGENTA</h2>
@@ -440,8 +451,6 @@
 
     <!-- ========================================
          LATEST POSTS SECTION
-         - White background as requested
-         - Does NOT change or resize when a post opens
          ======================================== -->
     <section class="blog-list" aria-labelledby="blog-title" id="blog-list">
       <h2 id="blog-title">Latest Posts</h2>
@@ -449,19 +458,18 @@
         <!-- Blog posts will be injected here by JavaScript -->
       </div>
     </section>
-
-    <!-- ========================================
-         BLOG POST FULL CONTENT VIEW
-         - Separate container below posts
-         - Smooth fade/slide animation
-         - Responsive and accessible
-         ======================================== -->
-    <article id="post-content" aria-live="polite" aria-atomic="true" tabindex="0" aria-label="Blog post content">
-      <h3 id="post-content-title"></h3>
-      <div id="post-content-body"></div>
-      <button class="close-btn" aria-label="Close blog post">Close</button>
-    </article>
   </main>
+
+  <!-- ========================================
+       MODAL for blog post content
+       ======================================== -->
+  <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+    <div id="modal" tabindex="0">
+      <h3 id="modal-title"></h3>
+      <div id="modal-content"></div>
+      <button id="modal-close" aria-label="Close blog post modal">Close</button>
+    </div>
+  </div>
 
   <!-- ========================================
        FOOTER
@@ -556,10 +564,11 @@
      * DOM ELEMENTS
      *******************************/
     const postsContainer = document.getElementById('posts-container');
-    const postContent = document.getElementById('post-content');
-    const postContentTitle = document.getElementById('post-content-title');
-    const postContentBody = document.getElementById('post-content-body');
-    const closeBtn = postContent.querySelector('.close-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const modalCloseBtn = document.getElementById('modal-close');
     const header = document.querySelector('header');
     const main = document.querySelector('main');
 
@@ -578,19 +587,19 @@
         article.setAttribute('aria-labelledby', `${post.id}-title`);
         article.setAttribute('aria-describedby', `${post.id}-summary`);
 
-        // Title link (triggers post open)
+        // Title link (triggers modal open)
         const titleLink = document.createElement('a');
         titleLink.href = '#';
         titleLink.id = `${post.id}-title`;
         titleLink.textContent = post.title;
         titleLink.addEventListener('click', e => {
           e.preventDefault();
-          openPost(post.id);
+          openModal(post.id);
         });
         titleLink.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            openPost(post.id);
+            openModal(post.id);
           }
         });
 
@@ -603,11 +612,11 @@
         article.appendChild(summaryP);
 
         // Make whole article clickable & keyboard navigable
-        article.addEventListener('click', () => openPost(post.id));
+        article.addEventListener('click', () => openModal(post.id));
         article.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            openPost(post.id);
+            openModal(post.id);
           }
           // Keyboard navigation inside posts list
           else if (e.key === 'ArrowDown') {
@@ -615,19 +624,13 @@
             if (article.nextElementSibling) {
               article.nextElementSibling.focus();
             } else {
-              // If last post, focus post content if open, else main
-              if (postContent.classList.contains('visible')) {
-                postContent.focus();
-              } else {
-                main.focus();
-              }
+              main.focus();
             }
           } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             if (article.previousElementSibling) {
               article.previousElementSibling.focus();
             } else {
-              // If first post, focus header
               header.focus();
             }
           }
@@ -638,50 +641,98 @@
     }
 
     /*******************************
-     * OPEN POST FULL CONTENT
-     * Displays the full post with smooth animation and scrolls into view.
+     * OPEN MODAL
+     * Displays the blog post content inside a modal.
      *******************************/
-    function openPost(postId) {
+    function openModal(postId) {
       const post = blogPosts.find(p => p.id === postId);
       if (!post) return;
 
-      postContentTitle.textContent = post.title;
-      postContentBody.innerHTML = post.content;
+      modalTitle.textContent = post.title;
+      modalContent.innerHTML = post.content;
 
-      // Show post content with animation
-      postContent.classList.add('visible');
-      postContent.setAttribute('tabindex', '-1');
-      postContent.focus();
+      modalOverlay.classList.add('visible');
+      modal.setAttribute('tabindex', '-1');
+      modal.focus();
 
-      // Scroll smoothly into view
-      postContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Trap focus inside modal
+      trapFocus(modalOverlay);
+
+      // Prevent background scrolling
+      document.body.style.overflow = 'hidden';
     }
 
     /*******************************
-     * CLOSE POST CONTENT
-     * Hides the post content and returns focus to the first post.
+     * CLOSE MODAL
      *******************************/
-    closeBtn.addEventListener('click', () => {
-      postContent.classList.remove('visible');
+    function closeModal() {
+      modalOverlay.classList.remove('visible');
+      document.body.style.overflow = '';
+
       // Return focus to first post for accessibility
       const firstPost = postsContainer.querySelector('.post');
       if (firstPost) firstPost.focus();
+    }
 
-      // Scroll back to posts container smoothly to avoid whitespace perception
-      postsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    closeBtn.addEventListener('keydown', e => {
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalCloseBtn.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        closeBtn.click();
-      }
-      // Allow Shift+Tab to go back to last post
-      else if (e.key === 'Tab' && e.shiftKey) {
-        e.preventDefault();
-        const posts = postsContainer.querySelectorAll('.post');
-        if(posts.length) posts[posts.length - 1].focus();
+        closeModal();
       }
     });
+
+    // Close modal on overlay click (outside modal)
+    modalOverlay.addEventListener('click', e => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+        closeModal();
+      }
+    });
+
+    /*******************************
+     * FOCUS TRAP for modal accessibility
+     * Keeps keyboard focus inside modal while open
+     *******************************/
+    function trapFocus(element) {
+      const focusableElementsString = 'a[href], area[href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+      const focusableElements = element.querySelectorAll(focusableElementsString);
+      if (focusableElements.length === 0) return;
+
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length -1];
+
+      function handleTrap(e) {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) { // Shift + Tab
+            if (document.activeElement === firstFocusable) {
+              e.preventDefault();
+              lastFocusable.focus();
+            }
+          } else { // Tab
+            if (document.activeElement === lastFocusable) {
+              e.preventDefault();
+              firstFocusable.focus();
+            }
+          }
+        }
+      }
+
+      element.addEventListener('keydown', handleTrap);
+
+      // Remove event listener when modal closes
+      function cleanup() {
+        element.removeEventListener('keydown', handleTrap);
+        element.removeEventListener('transitionend', cleanup);
+      }
+      element.addEventListener('transitionend', cleanup);
+    }
 
     /*******************************
      * DISCORD CONTACT BUTTON
@@ -714,7 +765,6 @@
 
     /*******************************
      * INITIALIZE PAGE
-     * Render posts and prepare UI
      *******************************/
     renderPostsList();
 
