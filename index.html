@@ -361,12 +361,12 @@
     }
 
     /* ========================================
-       Tooltip styles for Discord contact
+       Tooltip styles for Discord contact (top-left corner)
        ======================================== */
     #discord-contact {
       position: fixed;
-      bottom: 1rem;
-      right: 1rem;
+      top: 1rem;
+      left: 1rem;
       background: var(--color-magenta);
       color: white;
       padding: 0.5rem 1rem;
@@ -483,7 +483,7 @@
   </footer>
 
   <!-- ========================================
-       Discord contact floating button with tooltip
+       Discord contact floating button with tooltip (moved top-left)
        ======================================== -->
   <div id="discord-contact" tabindex="0" role="button" aria-describedby="discord-tooltip" aria-label="Discord contact username">
     magenta555
@@ -556,6 +556,17 @@
           <p>It’s common in diverse environments and can be a powerful tool for communication and identity navigation.</p>
           <p>However, it can also be exhausting and raise questions about authenticity and belonging.</p>
           <p>In web design and blogging, understanding code switching helps create content that resonates with diverse audiences.</p>
+        `
+      },
+      {
+        id: 'post6',
+        title: 'Linen Shirts and Linen Pants: The Ultimate Summer Comfort',
+        summary: 'Discover why linen clothing is the perfect choice for staying cool and stylish during hot weather.',
+        content: `
+          <p>Linen is a breathable, lightweight fabric ideal for summer wear. Linen shirts and pants offer comfort and a relaxed, elegant look.</p>
+          <p>They wick moisture away and keep you cool even on the hottest days.</p>
+          <p>Pair linen shirts with casual or dress pants for versatile styling options.</p>
+          <p>Care tip: Linen wrinkles naturally, adding to its charm, but can be ironed for a crisper look.</p>
         `
       }
     ];
@@ -672,6 +683,8 @@
       // Return focus to first post for accessibility
       const firstPost = postsContainer.querySelector('.post');
       if (firstPost) firstPost.focus();
+
+      // Removed scroll to top on close as requested
     }
 
     modalCloseBtn.addEventListener('click', closeModal);
