@@ -86,7 +86,7 @@
        ======================================== */
     header {
       background-color: var(--color-magenta);
-      color: #fff;
+      color: #ffffff; /* Force white text for all header text */
       padding: var(--spacing-large) var(--spacing-base);
       text-align: center;
       box-shadow: var(--shadow-header);
@@ -98,12 +98,13 @@
       margin: 0;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: #ffffff; /* Ensure white */
     }
     header p {
       margin-top: 0.5rem;
       font-weight: var(--font-weight-bold);
       font-size: var(--font-size-subtitle);
-      color: var(--color-magenta-light);
+      color: #ffffff; /* Ensure white */
     }
 
     /* ========================================
@@ -118,7 +119,7 @@
     }
 
     /* ========================================
-       ABOUT ME section styles (new)
+       ABOUT ME section styles
        ======================================== */
     #about-me {
       background: var(--color-post-bg);
@@ -156,9 +157,8 @@
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-post);
       color: var(--color-text);
-      /* Important: prevent weird whitespace growth */
-      overflow: hidden;
-      transition: height 0.4s ease;
+      /* Prevent weird whitespace growth */
+      overflow: visible; /* allow content to flow naturally */
       max-width: var(--max-content-width);
       margin-left: auto;
       margin-right: auto;
@@ -410,7 +410,7 @@
        ======================================== -->
   <header role="banner" tabindex="0">
     <h1 aria-label="MAGENTA, web designer and blogger">MAGENTA</h1>
-    <p>Your modern web design & blog destination</p>
+    <p>A Web Designer's Blog!</p>
   </header>
 
   <!-- ========================================
@@ -420,8 +420,7 @@
 
     <!-- ========================================
          ABOUT ME SECTION
-         - Moved outside Latest Posts for clarity
-         - Expanded with more personal info
+         - Expanded with Texas location info
          ======================================== -->
     <section id="about-me" aria-labelledby="about-me-title">
       <h2 id="about-me-title">Hi! I'm MAGENTA</h2>
@@ -434,12 +433,15 @@
       <p>
         When I’m not designing, I love sharing insights, tips, and stories through my blog to help others improve their web presence and design skills.
       </p>
+      <p>
+        Currently, I live in Texas, United States — a place that inspires me with its vibrant culture and tech community.
+      </p>
     </section>
 
     <!-- ========================================
          LATEST POSTS SECTION
          - White background as requested
-         - Fixed whitespace and height issues with smooth transitions
+         - Does NOT change or resize when a post opens
          ======================================== -->
     <section class="blog-list" aria-labelledby="blog-title" id="blog-list">
       <h2 id="blog-title">Latest Posts</h2>
@@ -450,6 +452,7 @@
 
     <!-- ========================================
          BLOG POST FULL CONTENT VIEW
+         - Separate container below posts
          - Smooth fade/slide animation
          - Responsive and accessible
          ======================================== -->
@@ -490,8 +493,7 @@
   <script>
     /*******************************
      * BLOG POSTS DATA
-     * Edit this array to add/edit/remove blog posts.
-     * Each post has: id, title, summary, and full content (HTML allowed).
+     * Add/edit/remove blog posts here.
      *******************************/
     const blogPosts = [
       {
@@ -536,6 +538,17 @@
           <p>Tip 4: Be patient and take your time; the best finds require a good browse.</p>
           <p>Happy shopping and saving!</p>
         `
+      },
+      {
+        id: 'post5',
+        title: 'Code Switching: Navigating Multiple Worlds',
+        summary: 'Understanding the art and impact of code switching in personal and professional life.',
+        content: `
+          <p>Code switching is the practice of shifting between languages, dialects, or cultural behaviors depending on the context.</p>
+          <p>It’s common in diverse environments and can be a powerful tool for communication and identity navigation.</p>
+          <p>However, it can also be exhausting and raise questions about authenticity and belonging.</p>
+          <p>In web design and blogging, understanding code switching helps create content that resonates with diverse audiences.</p>
+        `
       }
     ];
 
@@ -549,7 +562,6 @@
     const closeBtn = postContent.querySelector('.close-btn');
     const header = document.querySelector('header');
     const main = document.querySelector('main');
-    const blogListSection = document.getElementById('blog-list');
 
     /*******************************
      * RENDER BLOG POSTS LIST
@@ -623,9 +635,6 @@
 
         postsContainer.appendChild(article);
       });
-
-      // After rendering posts, fix container height to shrink if needed
-      fixBlogListHeight();
     }
 
     /*******************************
@@ -646,9 +655,6 @@
 
       // Scroll smoothly into view
       postContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      // Expand blog list container height smoothly to accommodate post content
-      fixBlogListHeight(true);
     }
 
     /*******************************
@@ -657,10 +663,12 @@
      *******************************/
     closeBtn.addEventListener('click', () => {
       postContent.classList.remove('visible');
-      fixBlogListHeight(false);
       // Return focus to first post for accessibility
       const firstPost = postsContainer.querySelector('.post');
       if (firstPost) firstPost.focus();
+
+      // Scroll back to posts container smoothly to avoid whitespace perception
+      postsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     closeBtn.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -674,26 +682,6 @@
         if(posts.length) posts[posts.length - 1].focus();
       }
     });
-
-    /*******************************
-     * FIX BLOG LIST HEIGHT
-     * Adjusts the height of the blog list container to prevent weird whitespace growth.
-     * @param {boolean} expand - true to expand for post content, false to shrink back.
-     *******************************/
-    function fixBlogListHeight(expand = false) {
-      if (expand) {
-        // Set height to fit posts container + post content smoothly
-        const postsHeight = postsContainer.offsetHeight;
-        const postContentHeight = postContent.offsetHeight;
-        const padding = 48; // approx padding inside blog-list section
-        const totalHeight = postsHeight + postContentHeight + padding;
-
-        blogListSection.style.height = totalHeight + 'px';
-      } else {
-        // Reset height to auto to shrink back
-        blogListSection.style.height = 'auto';
-      }
-    }
 
     /*******************************
      * DISCORD CONTACT BUTTON
