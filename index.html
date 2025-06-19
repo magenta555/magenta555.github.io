@@ -2,152 +2,268 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The personal blog and music portfolio of Magenta555, a transgender classical guitarist and composer." />
-  <title>MAGENTA</title>
-
-  <!-- Favicon as inline SVG -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%239C3044'/%3E%3C/svg%3E" />
-
-  <!-- Fonts -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MAGENTA - Web Designer & Blogger</title>
+  <meta name="description" content="MAGENTA's blog and portfolio - modern web design and insightful blogging." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Modern clean font: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- Styles -->
   <style>
-    :root {
-      --background-color: #9C3044;
-      --text-color: #ffffff;
-      --accent-color: #ffffff;
-      --font-family: 'Inter', sans-serif;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
+    /* Reset and base */
+    *, *::before, *::after {
       box-sizing: border-box;
     }
-
     body {
-      background-color: var(--background-color);
-      color: var(--text-color);
-      font-family: var(--font-family);
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: #fff;
+      color: #111;
       line-height: 1.6;
-      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    header p {
-      font-size: 1.25rem;
-      color: var(--accent-color);
-    }
-
-    nav {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    nav a {
-      color: var(--accent-color);
+    a {
+      color: #d81e5b; /* Magenta-ish */
       text-decoration: none;
-      margin: 0 1rem;
-      font-weight: bold;
+      outline-offset: 2px;
     }
-
-    nav a:hover {
+    a:focus, a:hover {
       text-decoration: underline;
+      outline: 3px solid #d81e5b;
+      outline-offset: 2px;
     }
-
-    main {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    section {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      border-radius: 1rem;
-    }
-
-    section h2 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-
-    article {
-      margin-bottom: 1.5rem;
-    }
-
-    article h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-
-    article p {
-      font-size: 1rem;
-    }
-
-    footer {
+    header {
+      background: linear-gradient(135deg, #d81e5b, #a31540);
+      color: white;
+      padding: 2rem 1rem;
       text-align: center;
+      box-shadow: 0 4px 8px rgb(216 30 91 / 0.3);
+    }
+    header h1 {
+      font-weight: 900;
+      font-size: 3rem;
+      margin: 0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+    header p {
+      margin-top: 0.5rem;
+      font-weight: 500;
+      font-size: 1.25rem;
+      color: #ffd6e8;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    section.intro {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    section.intro p {
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto;
+      color: #444;
+    }
+    section.blog-preview {
+      margin-bottom: 4rem;
+    }
+    .post {
+      border-left: 4px solid #d81e5b;
+      background: #fff0f4;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgb(216 30 91 / 0.15);
+      transition: background-color 0.3s ease;
+    }
+    .post:hover, .post:focus-within {
+      background: #ffd6e8;
+      outline: none;
+    }
+    .post a {
+      font-weight: 700;
+      font-size: 1.2rem;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+    }
+    .post time {
       font-size: 0.875rem;
-      margin-top: 4rem;
-      color: #f0f0f0;
+      color: #a31540;
+      font-style: italic;
+    }
+    footer {
+      background: #222;
+      color: #eee;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.875rem;
+    }
+    /* Accessibility: focus visible */
+    :focus-visible {
+      outline: 3px solid #d81e5b;
+      outline-offset: 2px;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.25rem;
+      }
+      main {
+        margin: 1rem;
+      }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
+    /* Fun JavaScript-enhanced magenta sparkle animation */
+    #sparkle-canvas {
+      position: fixed;
+      pointer-events: none;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      mix-blend-mode: screen;
     }
   </style>
 </head>
 <body>
   <header role="banner">
-    <h1>MAGENTA</h1>
-    <nav role="navigation" aria-label="Main navigation">
-      <a href="#blog">Blog</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#contact">Contact</a>
-    </nav>
+    <h1 aria-label="MAGENTA, web designer and blogger">MAGENTA</h1>
+    <p>Your modern web design & blog destination</p>
   </header>
 
-  <main>
-    <section id="blog" aria-labelledby="blog-title">
-      <h2 id="blog-title">Latest Updates</h2>
-      <article>
-        <h3>JUNE 19, 2025</h3>
-        <p>Hola! I created this website!</p>
-      </article>
+  <main role="main">
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title" class="sr-only">Introduction</h2>
+      <p>Hi! I'm MAGENTA — a passionate web designer and blogger crafting modern, accessible websites. Welcome to my space where creativity meets code.</p>
     </section>
 
-    <section id="portfolio" aria-labelledby="portfolio-title">
-      <h2 id="portfolio-title">Music Portfolio</h2>
-      <article>
-        <h3>Under construction...</h3>
-        <p>Stay tuned for an original piece composed for solo classical guitar!</p>
-      </article>
-    </section>
+    <section class="blog-preview" aria-labelledby="blog-title">
+      <h2 id="blog-title">Latest Posts</h2>
 
-    <section id="contact" aria-labelledby="contact-title">
-      <h2 id="contact-title">Contact</h2>
-      <p>For collaborations, commissions, or just to say hi, please contact me on Discord! My username is "magenta555"</p>
+      <article class="post" tabindex="0" aria-labelledby="post1-title" aria-describedby="post1-desc">
+        <a href="#" id="post1-title">Designing for Accessibility: Why It Matters</a>
+        <time datetime="2025-06-15">June 15, 2025</time>
+        <p id="post1-desc">Learn the key principles of creating websites everyone can use, regardless of ability.</p>
+      </article>
+
+      <article class="post" tabindex="0" aria-labelledby="post2-title" aria-describedby="post2-desc">
+        <a href="#" id="post2-title">Modern CSS Tricks for Clean Layouts</a>
+        <time datetime="2025-05-30">May 30, 2025</time>
+        <p id="post2-desc">Explore fresh CSS techniques to build sleek, responsive web pages effortlessly.</p>
+      </article>
+
+      <article class="post" tabindex="0" aria-labelledby="post3-title" aria-describedby="post3-desc">
+        <a href="#" id="post3-title">JavaScript Enhancements That Delight Users</a>
+        <time datetime="2025-05-10">May 10, 2025</time>
+        <p id="post3-desc">Discover subtle JS effects that improve user experience without overwhelming.</p>
+      </article>
     </section>
   </main>
 
   <footer role="contentinfo">
-    <p>© 2025 MAGENTA (magenta555) — Built with love, identity, and sound.</p>
+    <p>© 2025 MAGENTA. All rights reserved. <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">GitHub</a></p>
   </footer>
+
+  <!-- Sparkle Canvas -->
+  <canvas id="sparkle-canvas" aria-hidden="true"></canvas>
+
+  <script>
+    // Sparkle effect on mouse move - subtle and accessible
+    (function() {
+      const canvas = document.getElementById('sparkle-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let sparkles = [];
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * devicePixelRatio;
+        canvas.height = height * devicePixelRatio;
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(devicePixelRatio, devicePixelRatio);
+      }
+
+      class Sparkle {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.size = Math.random() * 2 + 1;
+          this.life = 60;
+          this.opacity = 1;
+          this.velX = (Math.random() - 0.5) * 1;
+          this.velY = (Math.random() - 1.5) * 1;
+          this.color = 'rgba(216, 30, 91, ';
+        }
+        update() {
+          this.x += this.velX;
+          this.y += this.velY;
+          this.life--;
+          this.opacity = this.life / 60;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.fillStyle = this.color + this.opacity + ')';
+          ctx.shadowColor = this.color + this.opacity + ')';
+          ctx.shadowBlur = 4;
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        sparkles = sparkles.filter(s => s.life > 0);
+        sparkles.forEach(s => {
+          s.update();
+          s.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      animate();
+
+      window.addEventListener('mousemove', e => {
+        for (let i = 0; i < 3; i++) {
+          sparkles.push(new Sparkle(e.clientX, e.clientY));
+        }
+      });
+
+      // Accessibility: reduce motion respects
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mediaQuery.matches) {
+        window.removeEventListener('mousemove', () => {});
+        sparkles = [];
+        ctx.clearRect(0, 0, width, height);
+      }
+    })();
+  </script>
+
+  <style>
+    /* Screen reader only helper */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
 </body>
 </html>
