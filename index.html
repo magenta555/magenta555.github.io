@@ -15,12 +15,11 @@
        ============================ */
     :root {
       --color-magenta: #d81e5b;
-      --color-magenta-dark: #a31540;
+      --color-magenta-dark: #a31540; /* Emphasized background color */
       --color-magenta-light: #ffd6e8;
-      --color-bg: #ffffff;
-      --color-text: #111111;
-      --color-text-muted: #444444;
-      --color-text-light: #eee;
+      --color-bg: var(--color-magenta-dark); /* Use #A31540 as main background */
+      --color-text: #ffffff; /* White text for best contrast */
+      --color-text-muted: #f0e6eb; /* Light muted text */
       --color-bg-post: #fff0f4;
       --color-bg-post-hover: #ffd6e8;
       --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -39,8 +38,9 @@
       --border-radius: 6px;
       --shadow-post: 0 2px 6px rgba(216, 30, 91, 0.15);
       --shadow-header: 0 4px 8px rgba(216, 30, 91, 0.3);
-      --outline-focus: 3px solid var(--color-magenta);
+      --outline-focus: 3px solid var(--color-magenta-light);
       --outline-offset: 2px;
+      --transition-time: 3s;
     }
 
     /* ============================
@@ -59,16 +59,19 @@
       display: flex;
       flex-direction: column;
       scroll-behavior: smooth;
+      transition: background-color var(--transition-time) ease;
     }
     a {
-      color: var(--color-magenta);
+      color: var(--color-magenta-light);
       text-decoration: none;
       outline-offset: var(--outline-offset);
+      transition: color 0.3s ease;
     }
     a:focus, a:hover {
       text-decoration: underline;
       outline: var(--outline-focus);
       outline-offset: var(--outline-offset);
+      color: #ffb3c6;
     }
     /* Accessibility: focus visible */
     :focus-visible {
@@ -80,12 +83,13 @@
        Header styles
        ============================ */
     header {
-      background: linear-gradient(135deg, var(--color-magenta), var(--color-magenta-dark));
-      color: white;
+      background-color: var(--color-magenta-dark);
+      color: var(--color-text);
       padding: var(--spacing-large) var(--spacing-base);
       text-align: center;
       box-shadow: var(--shadow-header);
       user-select: none;
+      transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
     }
     header h1 {
       font-weight: var(--font-weight-black);
@@ -93,12 +97,14 @@
       margin: 0;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      transition: color var(--transition-time) ease;
     }
     header p {
       margin-top: 0.5rem;
       font-weight: var(--font-weight-bold);
       font-size: var(--font-size-subtitle);
       color: var(--color-magenta-light);
+      transition: color var(--transition-time) ease;
     }
 
     /* ============================
@@ -109,6 +115,11 @@
       max-width: 900px;
       margin: var(--spacing-xlarge) auto;
       padding: 0 var(--spacing-base);
+      background: #fff;
+      color: #111;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
     }
     section.intro {
       margin-bottom: var(--spacing-xlarge);
@@ -133,6 +144,7 @@
       box-shadow: var(--shadow-post);
       transition: background-color 0.3s ease;
       cursor: pointer;
+      color: #111;
     }
     .post:hover, .post:focus-within {
       background: var(--color-bg-post-hover);
@@ -144,15 +156,18 @@
       display: inline-block;
       margin-bottom: 0.25rem;
       cursor: pointer;
-    }
-    .post time {
-      font-size: var(--font-size-small);
       color: var(--color-magenta-dark);
-      font-style: italic;
+      transition: color 0.3s ease;
     }
+    .post a:hover, .post a:focus {
+      color: var(--color-magenta);
+      outline: none;
+      text-decoration: underline;
+    }
+    /* Removed date display as requested */
     .post p {
       margin-top: 0.25rem;
-      color: var(--color-text-muted);
+      color: #555;
     }
 
     /* ============================
@@ -166,6 +181,7 @@
       max-width: 700px;
       margin: 0 auto var(--spacing-xlarge);
       display: none; /* Hidden by default */
+      color: #111;
     }
     #post-content h3 {
       margin-top: 0;
@@ -173,7 +189,7 @@
     }
     #post-content p {
       line-height: 1.7;
-      color: var(--color-text-muted);
+      color: #444;
     }
     #post-content button.close-btn {
       background: var(--color-magenta);
@@ -196,15 +212,17 @@
        Footer styles
        ============================ */
     footer {
-      background: #222;
-      color: var(--color-text-light);
+      background: var(--color-magenta-dark);
+      color: var(--color-text);
       text-align: center;
       padding: var(--spacing-base);
       font-size: var(--font-size-small);
+      user-select: none;
     }
     footer a {
       color: var(--color-magenta-light);
       font-weight: var(--font-weight-bold);
+      transition: color 0.3s ease;
     }
     footer a:focus, footer a:hover {
       color: var(--color-magenta);
@@ -299,7 +317,7 @@
   <!-- ============================
        HEADER
        ============================ -->
-  <header role="banner">
+  <header role="banner" tabindex="0">
     <h1 aria-label="MAGENTA, web designer and blogger">MAGENTA</h1>
     <p>Your modern web design & blog destination</p>
   </header>
@@ -307,7 +325,7 @@
   <!-- ============================
        MAIN CONTENT
        ============================ -->
-  <main role="main">
+  <main role="main" tabindex="0">
 
     <!-- INTRO SECTION -->
     <section class="intro" aria-labelledby="intro-title">
@@ -328,7 +346,6 @@
     <!-- BLOG POST FULL CONTENT VIEW -->
     <article id="post-content" aria-live="polite" aria-atomic="true" tabindex="0" aria-label="Blog post content">
       <h3 id="post-content-title"></h3>
-      <time id="post-content-date" datetime=""></time>
       <div id="post-content-body"></div>
       <button class="close-btn" aria-label="Close blog post">Close</button>
     </article>
@@ -365,13 +382,12 @@
     /*******************************
      * BLOG POSTS DATA
      * Edit this array to add/edit/remove blog posts.
-     * Each post has: id, title, date (YYYY-MM-DD), summary, and full content (HTML allowed).
+     * Each post has: id, title, summary, and full content (HTML allowed).
      *******************************/
     const blogPosts = [
       {
         id: 'post1',
         title: 'Designing for Accessibility: Why It Matters',
-        date: '2025-06-15',
         summary: 'Learn the key principles of creating websites everyone can use, regardless of ability.',
         content: `
           <p>Accessibility is not just a buzzword — it’s a fundamental part of good web design. By ensuring your websites are usable by people with disabilities, you create a better experience for everyone.</p>
@@ -382,7 +398,6 @@
       {
         id: 'post2',
         title: 'Modern CSS Tricks for Clean Layouts',
-        date: '2025-05-30',
         summary: 'Explore fresh CSS techniques to build sleek, responsive web pages effortlessly.',
         content: `
           <p>CSS has evolved tremendously. Flexbox and Grid allow you to build complex layouts without hacks.</p>
@@ -393,7 +408,6 @@
       {
         id: 'post3',
         title: 'JavaScript Enhancements That Delight Users',
-        date: '2025-05-10',
         summary: 'Discover subtle JS effects that improve user experience without overwhelming.',
         content: `
           <p>JavaScript can bring your site to life when used thoughtfully. Avoid heavy frameworks for simple blogs.</p>
@@ -407,22 +421,16 @@
      * UTILITY FUNCTIONS
      *******************************/
 
-    // Format date to readable string, e.g. June 15, 2025
-    function formatDate(dateStr) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      const date = new Date(dateStr + 'T00:00:00'); // Ensure no timezone issues
-      return date.toLocaleDateString(undefined, options);
-    }
-
     /*******************************
      * DOM ELEMENTS
      *******************************/
     const postsContainer = document.getElementById('posts-container');
     const postContent = document.getElementById('post-content');
     const postContentTitle = document.getElementById('post-content-title');
-    const postContentDate = document.getElementById('post-content-date');
     const postContentBody = document.getElementById('post-content-body');
     const closeBtn = postContent.querySelector('.close-btn');
+    const header = document.querySelector('header');
+    const main = document.querySelector('main');
 
     /*******************************
      * RENDER BLOG POSTS LIST
@@ -455,18 +463,12 @@
           }
         });
 
-        // Date
-        const timeElem = document.createElement('time');
-        timeElem.dateTime = post.date;
-        timeElem.textContent = formatDate(post.date);
-
         // Summary
         const summaryP = document.createElement('p');
         summaryP.id = `${post.id}-summary`;
         summaryP.textContent = post.summary;
 
         article.appendChild(titleLink);
-        article.appendChild(timeElem);
         article.appendChild(summaryP);
 
         // Make whole article clickable for keyboard users
@@ -475,6 +477,28 @@
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             openPost(post.id);
+          }
+          // Handle keyboard navigation inside posts list
+          else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (article.nextElementSibling) {
+              article.nextElementSibling.focus();
+            } else {
+              // If last post, focus main content (post content or intro)
+              if (postContent.style.display === 'block') {
+                postContent.focus();
+              } else {
+                main.focus();
+              }
+            }
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (article.previousElementSibling) {
+              article.previousElementSibling.focus();
+            } else {
+              // If first post, focus header
+              header.focus();
+            }
           }
         });
 
@@ -491,8 +515,6 @@
       if (!post) return;
 
       postContentTitle.textContent = post.title;
-      postContentDate.dateTime = post.date;
-      postContentDate.textContent = formatDate(post.date);
       postContentBody.innerHTML = post.content;
 
       postContent.style.display = 'block';
@@ -508,12 +530,18 @@
     closeBtn.addEventListener('click', () => {
       postContent.style.display = 'none';
       // Return focus to posts container for accessibility
-      postsContainer.focus();
+      postsContainer.querySelector('.post').focus();
     });
     closeBtn.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         closeBtn.click();
+      }
+      // Allow Shift+Tab to go back to last post
+      else if (e.key === 'Tab' && e.shiftKey) {
+        e.preventDefault();
+        const posts = postsContainer.querySelectorAll('.post');
+        if(posts.length) posts[posts.length - 1].focus();
       }
     });
 
@@ -554,8 +582,7 @@
     /*******************************
      * FUN JAVASCRIPT EFFECTS
      * 1. Sparkle trail on mouse move (already implemented)
-     * 2. Subtle header text color cycling animation
-     * 3. Floating "MAGENTA" letters on page load
+     * 2. Smooth background and text color transition on header and body
      *******************************/
 
     // 1. Sparkle trail (from previous code)
@@ -632,68 +659,50 @@
       }
     })();
 
-    // 2. Header text color cycling animation (subtle)
-    (function() {
-      const headerTitle = document.querySelector('header h1');
-      const colors = [
-        'var(--color-magenta)',
-        'var(--color-magenta-light)',
-        'var(--color-magenta-dark)'
-      ];
-      let index = 0;
-
-      function cycleColor() {
-        headerTitle.style.color = colors[index];
-        index = (index + 1) % colors.length;
-      }
-
-      setInterval(cycleColor, 4000);
-    })();
-
-    // 3. Floating MAGENTA letters on page load
+    // 2. Smooth background and text color transition on header and body
     (function() {
       const header = document.querySelector('header');
-      const letters = 'MAGENTA'.split('');
-      const floatContainer = document.createElement('div');
-      floatContainer.setAttribute('aria-hidden', 'true');
-      floatContainer.style.position = 'fixed';
-      floatContainer.style.top = '10%';
-      floatContainer.style.left = '50%';
-      floatContainer.style.transform = 'translateX(-50%)';
-      floatContainer.style.pointerEvents = 'none';
-      floatContainer.style.zIndex = '9998';
-      document.body.appendChild(floatContainer);
+      const body = document.body;
 
-      letters.forEach((letter, i) => {
-        const span = document.createElement('span');
-        span.textContent = letter;
-        span.style.position = 'absolute';
-        span.style.fontSize = '2rem';
-        span.style.fontWeight = '900';
-        span.style.color = 'var(--color-magenta)';
-        span.style.left = `${i * 2.5}rem`;
-        span.style.top = '0';
-        span.style.opacity = '0.7';
-        span.style.willChange = 'transform';
-        floatContainer.appendChild(span);
-
-        // Animate floating up and down with different delays
-        let direction = 1;
-        let posY = 0;
-        function animate() {
-          posY += 0.15 * direction;
-          if (posY > 10) direction = -1;
-          else if (posY < 0) direction = 1;
-          span.style.transform = `translateY(${posY}px)`;
-          requestAnimationFrame(animate);
+      // Colors to toggle between (emphasize #A31540 background and #FFFFFF text)
+      const states = [
+        {
+          headerBg: '#A31540',
+          headerText: '#FFFFFF',
+          bodyBg: '#FFFFFF',
+          bodyText: '#111111'
+        },
+        {
+          headerBg: '#D81E5B',
+          headerText: '#FFFFFF',
+          bodyBg: '#FFF0F4',
+          bodyText: '#111111'
         }
-        setTimeout(() => animate(), i * 300);
-      });
+      ];
 
-      // Remove floating letters after 10 seconds to avoid distraction
-      setTimeout(() => {
-        floatContainer.remove();
-      }, 10000);
+      let current = 0;
+      function toggleColors() {
+        current = (current + 1) % states.length;
+        const state = states[current];
+
+        // Smoothly transition colors
+        header.style.backgroundColor = state.headerBg;
+        header.style.color = state.headerText;
+        // Update header text and paragraph colors
+        header.querySelector('h1').style.color = state.headerText;
+        header.querySelector('p').style.color = state.headerText;
+
+        body.style.backgroundColor = state.bodyBg;
+        body.style.color = state.bodyText;
+
+        // Also update main background and text colors to match body
+        const main = document.querySelector('main');
+        main.style.backgroundColor = state.bodyBg;
+        main.style.color = state.bodyText;
+      }
+
+      // Initial colors set by CSS variables, start toggling every 10 seconds
+      setInterval(toggleColors, 10000);
     })();
   </script>
 </body>
